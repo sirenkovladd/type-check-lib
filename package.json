@@ -1,0 +1,65 @@
+{
+  "name": "type-check-lib",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "types": "type.d.ts",
+  "author": {
+    "name": "Vlad Sirenko",
+    "email": "sirenkovladd@gmail.com"
+  },
+  "description": "Fast, small data validator",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sirenkovladd/type-check-lib/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sirenkovladd/type-check-lib.git"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "keywords": ["schema", "validation", "validation", "validator", "type"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.5.0",
+    "@types/expect.js": "^0.3.32",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.8",
+    "expect.js": "^0.3.1",
+    "minify": "^11.0.1",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "putout": "^34.9.1",
+    "typescript": "^5.0.0",
+    "wireit": "^0.14.1"
+  },
+  "scripts": {
+    "test": "wireit",
+    "cov": "wireit",
+    "test-ci": "nyc --reporter=lcov --check-coverage mocha",
+    "prepare": "git config core.hooksPath .githooks",
+    "pre-commit": "npm run cov",
+    "build": "wireit"
+  },
+  "wireit": {
+    "build": {
+      "command": "mkdir -p dist && minify src/index.js > dist/index.js",
+      "files": ["src/*.js"],
+      "output": ["dist"]
+    },
+    "cov": {
+      "command": "nyc --reporter=html mocha",
+      "files": ["src/**/*.js", "test/**/*.js"],
+      "dependencies": ["build"]
+    },
+    "test": {
+      "command": "mocha",
+      "files": ["src/**/*.js", "test/**/*.js"],
+      "dependencies": ["build"]
+    }
+  }
+}
